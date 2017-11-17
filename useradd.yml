@@ -1,0 +1,22 @@
+---
+- hosts: servergroup
+  vars:
+   username: 'testuser'
+   userid: '501'
+   groupid: '501'
+   home_folder: '/opt/home/'
+   comments: 'TestUser'
+  tasks:
+    - user:
+       name: "{{username}}"
+       comment: "{{comments}}"
+       uid: "{{userid}}"
+       groupid: "{{groupid}}"
+	   home: "{{home_folder}}"
+       password: $6$B/GH.h72keiIPvmb$zgymgk7ItOibne/iOQXCefUAfq3z6GP8UaD9hnUYCJHWziUBCp00TjN2JCcvV4LODe2O5tbI2DUq87TM1bG5I.
+
+    - name: Password Expiry
+      shell: chage -d 0 "{{username}}"
+
+    - name: Changing permission
+      shell: chmod 755 "{{home_folder}}"
